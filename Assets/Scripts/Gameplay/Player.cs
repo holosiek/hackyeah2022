@@ -1,28 +1,35 @@
+using GameSystems;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject _meshObject;
-	
+
 	[SerializeField]
 	[Range(0, 1)]
 	private int _id;
 	
     private const int SPEED = 8;
-    private GameControls _gameControls;
-    
-    public void Start()
+    private bool _initialized;
+    private InputSystem _inputSystem;
+
+    public void Awake()
     {
-	    _gameControls = new GameControls();
+	    GameInstance.Instance.OnGameSystemInitializedEvent += OnGameSystemInitialized;
+    }
+
+    private void OnGameSystemInitialized()
+    {
+	    _initialized = true;
 	    
-	    if (_id == 0)
+	    if (!GameInstance.Instance.TryGetSystem(out _inputSystem))
 	    {
-		    _gameControls.Gameplay.Enable();
+		    Debug.LogError("Couldn't gather input system!");
 	    }
 	    else
 	    {
-		    _gameControls.Gameplay2.Enable();
+		    Debug.Log(_inputSystem);
 	    }
     }
 
@@ -30,19 +37,19 @@ public class Player : MonoBehaviour
     {
 	    var vector = Vector3.zero;
 	    
-	    if (_gameControls.Gameplay.Forward.IsPressed())
+	    if (_inputSystem.GameControls.Gameplay.Forward.IsPressed())
 	    {
 		    vector += Vector3.forward * Time.deltaTime;
 	    }
-	    if (_gameControls.Gameplay.Back.IsPressed())
+	    if (_inputSystem.GameControls.Gameplay.Back.IsPressed())
 	    {
 		    vector -= Vector3.forward * Time.deltaTime;
 	    }
-	    if (_gameControls.Gameplay.Left.IsPressed())
+	    if (_inputSystem.GameControls.Gameplay.Left.IsPressed())
 	    {
 		    vector -= Vector3.right * Time.deltaTime;
 	    }
-	    if (_gameControls.Gameplay.Right.IsPressed())
+	    if (_inputSystem.GameControls.Gameplay.Right.IsPressed())
 	    {
 		    vector += Vector3.right * Time.deltaTime;
 	    }
@@ -54,19 +61,19 @@ public class Player : MonoBehaviour
     {
 	    var vector = Vector3.zero;
 	    
-	    if (_gameControls.Gameplay2.Forward.IsPressed())
+	    if (_inputSystem.GameControls.Gameplay2.Forward.IsPressed())
 	    {
 		    vector += Vector3.forward * Time.deltaTime;
 	    }
-	    if (_gameControls.Gameplay2.Back.IsPressed())
+	    if (_inputSystem.GameControls.Gameplay2.Back.IsPressed())
 	    {
 		    vector -= Vector3.forward * Time.deltaTime;
 	    }
-	    if (_gameControls.Gameplay2.Left.IsPressed())
+	    if (_inputSystem.GameControls.Gameplay2.Left.IsPressed())
 	    {
 		    vector -= Vector3.right * Time.deltaTime;
 	    }
-	    if (_gameControls.Gameplay2.Right.IsPressed())
+	    if (_inputSystem.GameControls.Gameplay2.Right.IsPressed())
 	    {
 		    vector += Vector3.right * Time.deltaTime;
 	    }
@@ -76,13 +83,16 @@ public class Player : MonoBehaviour
     
     public void Update()
     {
-	    if (_id == 0)
+	    if (_initialized)
 	    {
-		    transform.position += Player0Movement() * SPEED;;
-	    }
-	    else
-	    {
-		    transform.position += Player1Movement() * SPEED;;
+		    if (_id == 0)
+		    {
+			    transform.position += Player0Movement() * SPEED;;
+		    }
+		    else
+		    {
+			    transform.position += Player1Movement() * SPEED;;
+		    }
 	    }
     }
 }

@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameInstance : MonoBehaviour
@@ -9,6 +9,8 @@ public class GameInstance : MonoBehaviour
     public static GameInstance Instance => _instance;
 
     private List<IGameSystem> _gameSystems;
+    
+    public event Action OnGameSystemInitializedEvent;
 
     private void Awake()
     {
@@ -38,6 +40,22 @@ public class GameInstance : MonoBehaviour
         _gameSystems = new List<IGameSystem>(FindObjectsOfType<AbstractGameSystem>(true));
     }
 
+    public bool TryGetSystem<T>(out T typeSystem) where T : IGameSystem
+    {
+        foreach (var system in _gameSystems)
+        {
+            if (system is T gameSystem)
+            {
+                typeSystem = gameSystem;
+                return true;
+            }
+
+        }
+        
+        typeSystem = default;
+        return false;
+    }
+
     private void PrepareSystemsAndStartGame()
     {
         InitializeGameSystems();
@@ -52,6 +70,7 @@ public class GameInstance : MonoBehaviour
         {
             await gameSystem.Initialize();
         }
+        OnGameSystemInitializedEvent?.Invoke();
     }
 
     private async void OnGameSystemsInitialized()

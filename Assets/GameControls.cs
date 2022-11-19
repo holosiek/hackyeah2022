@@ -62,6 +62,15 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""26b6b328-fff8-441d-9121-3e900d97a4ac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""action"": ""Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""690f758c-1ab1-4fd2-ba7a-d1437cadd378"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -146,6 +166,15 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""name"": ""Left"",
                     ""type"": ""Button"",
                     ""id"": ""c06e312c-9e49-4d04-a12d-83edea823406"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""6b84c9e5-ba83-410f-938b-f837c082d9e8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -196,6 +225,17 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""action"": ""Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ec5af68-cb28-4229-988a-d46ecd36571f"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,12 +248,14 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         m_Gameplay_Back = m_Gameplay.FindAction("Back", throwIfNotFound: true);
         m_Gameplay_Right = m_Gameplay.FindAction("Right", throwIfNotFound: true);
         m_Gameplay_Left = m_Gameplay.FindAction("Left", throwIfNotFound: true);
+        m_Gameplay_Action = m_Gameplay.FindAction("Action", throwIfNotFound: true);
         // Gameplay2
         m_Gameplay2 = asset.FindActionMap("Gameplay2", throwIfNotFound: true);
         m_Gameplay2_Forward = m_Gameplay2.FindAction("Forward", throwIfNotFound: true);
         m_Gameplay2_Back = m_Gameplay2.FindAction("Back", throwIfNotFound: true);
         m_Gameplay2_Right = m_Gameplay2.FindAction("Right", throwIfNotFound: true);
         m_Gameplay2_Left = m_Gameplay2.FindAction("Left", throwIfNotFound: true);
+        m_Gameplay2_Action = m_Gameplay2.FindAction("Action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -277,6 +319,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Back;
     private readonly InputAction m_Gameplay_Right;
     private readonly InputAction m_Gameplay_Left;
+    private readonly InputAction m_Gameplay_Action;
     public struct GameplayActions
     {
         private @GameControls m_Wrapper;
@@ -285,6 +328,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         public InputAction @Back => m_Wrapper.m_Gameplay_Back;
         public InputAction @Right => m_Wrapper.m_Gameplay_Right;
         public InputAction @Left => m_Wrapper.m_Gameplay_Left;
+        public InputAction @Action => m_Wrapper.m_Gameplay_Action;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -306,6 +350,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                 @Left.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeft;
                 @Left.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeft;
                 @Left.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeft;
+                @Action.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAction;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -322,6 +369,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                 @Left.started += instance.OnLeft;
                 @Left.performed += instance.OnLeft;
                 @Left.canceled += instance.OnLeft;
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
             }
         }
     }
@@ -334,6 +384,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay2_Back;
     private readonly InputAction m_Gameplay2_Right;
     private readonly InputAction m_Gameplay2_Left;
+    private readonly InputAction m_Gameplay2_Action;
     public struct Gameplay2Actions
     {
         private @GameControls m_Wrapper;
@@ -342,6 +393,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         public InputAction @Back => m_Wrapper.m_Gameplay2_Back;
         public InputAction @Right => m_Wrapper.m_Gameplay2_Right;
         public InputAction @Left => m_Wrapper.m_Gameplay2_Left;
+        public InputAction @Action => m_Wrapper.m_Gameplay2_Action;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -363,6 +415,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                 @Left.started -= m_Wrapper.m_Gameplay2ActionsCallbackInterface.OnLeft;
                 @Left.performed -= m_Wrapper.m_Gameplay2ActionsCallbackInterface.OnLeft;
                 @Left.canceled -= m_Wrapper.m_Gameplay2ActionsCallbackInterface.OnLeft;
+                @Action.started -= m_Wrapper.m_Gameplay2ActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_Gameplay2ActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_Gameplay2ActionsCallbackInterface.OnAction;
             }
             m_Wrapper.m_Gameplay2ActionsCallbackInterface = instance;
             if (instance != null)
@@ -379,6 +434,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                 @Left.started += instance.OnLeft;
                 @Left.performed += instance.OnLeft;
                 @Left.canceled += instance.OnLeft;
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
             }
         }
     }
@@ -389,6 +447,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         void OnBack(InputAction.CallbackContext context);
         void OnRight(InputAction.CallbackContext context);
         void OnLeft(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
     }
     public interface IGameplay2Actions
     {
@@ -396,5 +455,6 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         void OnBack(InputAction.CallbackContext context);
         void OnRight(InputAction.CallbackContext context);
         void OnLeft(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
     }
 }
