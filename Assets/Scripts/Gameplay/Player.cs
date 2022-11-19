@@ -1,16 +1,17 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-	private GameControls _gameControls;
-
+	[SerializeField]
+	private GameObject _meshObject;
+	
 	[SerializeField]
 	[Range(0, 1)]
 	private int _id;
 	
     private const int SPEED = 8;
-
+    private GameControls _gameControls;
+    
     public void Start()
     {
 	    _gameControls = new GameControls();
