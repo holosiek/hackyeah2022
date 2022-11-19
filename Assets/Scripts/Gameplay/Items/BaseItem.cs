@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class AbstractItem : MonoBehaviour, IItem
+public class BaseItem : AbstractInteractableBase, IItem
 {
     [SerializeField]
     private ItemTag itemTag;
@@ -8,6 +8,11 @@ public abstract class AbstractItem : MonoBehaviour, IItem
     private Transform Transform => gameObject.transform;
 
     public ItemTag ItemTag => ItemTag;
+
+    protected override void InternalStartInteraction(IPlayer player)
+    {
+        PickUp(player);
+    }
 
     protected virtual void InternalOnPickedUp()
     {
@@ -30,5 +35,6 @@ public abstract class AbstractItem : MonoBehaviour, IItem
     {
         Transform.parent = null;
         InternalOnDropped();
+        EndInteraction();
     }
 }
