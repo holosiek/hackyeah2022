@@ -78,32 +78,17 @@ public class GameInstance : MonoBehaviour
         }
     }
 
-    public async Task EndGame()
+    private void OnDestroy()
     {
-        await OnGameEnded();
-        await CleanupSystems();
-        DestroySystems();
-    }
-
-    private async Task OnGameEnded()
-    {
-        foreach (var gameSystem in _gameSystems)
+        if (_instance == this)
         {
-            await gameSystem.OnGameEnded();
-        }
-    }
-
-    private async Task CleanupSystems()
-    {
-        foreach (var gameSystem in _gameSystems)
-        {
-            await gameSystem.Cleanup();
+            DestroySystems();
         }
     }
 
     private void DestroySystems()
     {
-        _gameSystems.ForEach(gameSystem => gameSystem.Destroy());
+        _gameSystems.ForEach(gameSystem => gameSystem.PreDestroy());
         _gameSystems.Clear();
         _gameSystems = null;
     }

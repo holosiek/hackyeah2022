@@ -28,13 +28,18 @@ public abstract class AbstractGameSystem : MonoBehaviour, IGameSystem
         return Task.CompletedTask;
     }
 
-    public virtual Task Cleanup()
+    public virtual void PreDestroy()
     {
-        return Task.CompletedTask;
+        Destroy(gameObject);
     }
 
-    public virtual void Destroy()
+    protected virtual void OnDestroy()
     {
-        Destroy(this);
+        Cleanup();
+    }
+
+    protected virtual void Cleanup()
+    {
+
     }
 }

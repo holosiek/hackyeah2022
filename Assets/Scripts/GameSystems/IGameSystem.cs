@@ -6,7 +6,5 @@ public interface IGameSystem
     Task OnSystemsInitialized();
     Task OnGameReady();
     Task OnGameStarted();
-    Task OnGameEnded();
-    Task Cleanup();
-    void Destroy();
+    void PreDestroy();
 }
