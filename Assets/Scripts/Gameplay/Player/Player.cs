@@ -8,6 +8,7 @@ public class Player : MonoBehaviour, IPlayer
     [Flags]
     private enum Direction
     {
+        Zero,
         Top,
         Right,
         Bottom,
@@ -53,48 +54,39 @@ public class Player : MonoBehaviour, IPlayer
     private Vector3 MovePlayer()
     {
         var vector = Vector3.zero;
+        var direction = Direction.Zero;
 
         if (_inputSystem.IsForwardPressed(_playerType))
         {
             vector += Vector3.forward;
+            direction |= Direction.Top;
         }
 
         if (_inputSystem.IsBackPressed(_playerType))
         {
             vector -= Vector3.forward;
+            direction |= Direction.Bottom;
         }
 
         if (_inputSystem.IsLeftPressed(_playerType))
         {
             vector -= Vector3.right;
+            direction |= Direction.Left;
         }
 
         if (_inputSystem.IsRightPressed(_playerType))
         {
             vector += Vector3.right;
+            direction |= Direction.Right;
         }
+
+        _direction = direction;
 
         return vector;
     }
 
     private float GetAngle()
     {
-        if (_direction.HasFlag(Direction.Top) && _direction.HasFlag(Direction.Right))
-        {
-            return 45;
-        }
-        if (_direction.HasFlag(Direction.Top) && _direction.HasFlag(Direction.Left))
-        {
-            return 315;
-        }
-        if (_direction.HasFlag(Direction.Bottom) && _direction.HasFlag(Direction.Right))
-        {
-            return 135;
-        }
-        if (_direction.HasFlag(Direction.Bottom) && _direction.HasFlag(Direction.Left))
-        {
-            return 225;
-        }
         return _direction switch
         {
             Direction.Top => 0,
@@ -112,13 +104,11 @@ public class Player : MonoBehaviour, IPlayer
 
     public void Update()
     {
-        var previousDirection = _direction;
-
         if (_initialized)
         {
             transform.position += MovePlayer().normalized * SPEED * Time.deltaTime;
 
-            if (previousDirection != _direction)
+            if (_direction != Direction.Zero)
             {
                 UpdatePlayerMeshRotation();
             }
