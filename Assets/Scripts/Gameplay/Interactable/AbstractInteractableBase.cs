@@ -45,6 +45,11 @@ public abstract class AbstractInteractableBase : MonoBehaviour, IInteractable
         }
     }
 
+    public bool CanBeDetected()
+    {
+        return IsReadyForInteraction();
+    }
+
     private bool IsReadyForInteraction()
     {
         return !_isWorking;
