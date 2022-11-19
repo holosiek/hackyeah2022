@@ -1,18 +1,23 @@
 using GameSystems;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPlayer
 {
 	[SerializeField]
 	private GameObject _meshObject;
 
 	[SerializeField]
-	[Range(0, 1)]
-	private int _id;
+	private Transform _handTransform;
+
+	[SerializeField]
+	private PlayerType _playerType;
 	
     private const int SPEED = 8;
     private bool _initialized;
     private InputSystem _inputSystem;
+
+	public PlayerType PlayerType => _playerType;
+	public Transform HandTransform => _handTransform;
 
     public void Awake()
     {
@@ -85,7 +90,7 @@ public class Player : MonoBehaviour
     {
 	    if (_initialized)
 	    {
-		    if (_id == 0)
+		    if (_playerType == PlayerType.Red)
 		    {
 			    transform.position += Player0Movement() * SPEED;;
 		    }
