@@ -15,5 +15,53 @@ namespace GameSystems
 			
 			return Task.CompletedTask;
 		}
+		
+		public bool IsForwardPressed(PlayerType type)
+        {
+            if (type == PlayerType.Red)
+            {
+        	    return GameControls.Gameplay.Forward.IsPressed();
+            }
+            else
+            {
+        	    return GameControls.Gameplay2.Forward.IsPressed();
+            }
+        }
+        
+		public bool IsBackPressed(PlayerType type)
+        {
+            if (type == PlayerType.Red)
+            {
+        	    return GameControls.Gameplay.Back.IsPressed();
+            }
+            else
+            {
+        	    return GameControls.Gameplay2.Back.IsPressed();
+            }
+        }
+        
+		public bool IsLeftPressed(PlayerType type)
+        {
+            if (type == PlayerType.Red)
+            {
+        	    return GameControls.Gameplay.Left.IsPressed();
+            }
+            else
+            {
+        	    return GameControls.Gameplay2.Left.IsPressed();
+            }
+        }
+        
+		public bool IsRightPressed(PlayerType type)
+        {
+            if (type == PlayerType.Red)
+            {
+        	    return GameControls.Gameplay.Right.IsPressed();
+            }
+            else
+            {
+        	    return GameControls.Gameplay2.Right.IsPressed();
+            }
+        }
 	}
 }

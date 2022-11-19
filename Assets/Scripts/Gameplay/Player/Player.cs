@@ -1,8 +1,18 @@
+using System;
 using GameSystems;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IPlayer
 {
+	[Flags]
+	private enum Direction
+	{
+		Top,
+		Right,
+		Bottom,
+		Left
+	}
+	
 	[SerializeField]
 	private GameObject _meshObject;
 
@@ -18,6 +28,7 @@ public class Player : MonoBehaviour, IPlayer
 
 	public PlayerType PlayerType => _playerType;
 	public Transform HandTransform => _handTransform;
+	private Direction _direction;
 
     public void Awake()
     {
@@ -32,71 +43,79 @@ public class Player : MonoBehaviour, IPlayer
 	    {
 		    Debug.LogError("Couldn't gather input system!");
 	    }
-	    else
-	    {
-		    Debug.Log(_inputSystem);
-	    }
     }
 
-    private Vector3 Player0Movement()
+    private Vector3 MovePlayer()
     {
 	    var vector = Vector3.zero;
 	    
-	    if (_inputSystem.GameControls.Gameplay.Forward.IsPressed())
+	    if (_inputSystem.IsForwardPressed(_playerType))
 	    {
-		    vector += Vector3.forward * Time.deltaTime;
+		    vector += Vector3.forward;
 	    }
-	    if (_inputSystem.GameControls.Gameplay.Back.IsPressed())
+	    
+	    if (_inputSystem.IsBackPressed(_playerType))
 	    {
-		    vector -= Vector3.forward * Time.deltaTime;
+		    vector -= Vector3.forward;
 	    }
-	    if (_inputSystem.GameControls.Gameplay.Left.IsPressed())
+	    
+	    if (_inputSystem.IsLeftPressed(_playerType))
 	    {
-		    vector -= Vector3.right * Time.deltaTime;
+		    vector -= Vector3.right;
 	    }
-	    if (_inputSystem.GameControls.Gameplay.Right.IsPressed())
+	    
+	    if (_inputSystem.IsRightPressed(_playerType))
 	    {
-		    vector += Vector3.right * Time.deltaTime;
+		    vector += Vector3.right;
 	    }
 
 	    return vector;
     }
-    
-    private Vector3 Player1Movement()
-    {
-	    var vector = Vector3.zero;
-	    
-	    if (_inputSystem.GameControls.Gameplay2.Forward.IsPressed())
-	    {
-		    vector += Vector3.forward * Time.deltaTime;
-	    }
-	    if (_inputSystem.GameControls.Gameplay2.Back.IsPressed())
-	    {
-		    vector -= Vector3.forward * Time.deltaTime;
-	    }
-	    if (_inputSystem.GameControls.Gameplay2.Left.IsPressed())
-	    {
-		    vector -= Vector3.right * Time.deltaTime;
-	    }
-	    if (_inputSystem.GameControls.Gameplay2.Right.IsPressed())
-	    {
-		    vector += Vector3.right * Time.deltaTime;
-	    }
 
-	    return vector;
+    private float GetAngle()
+    {
+	    if (_direction.HasFlag(Direction.Top) && _direction.HasFlag(Direction.Right))
+	    {
+		    return 45;
+	    }
+	    if (_direction.HasFlag(Direction.Top) && _direction.HasFlag(Direction.Left))
+	    {
+		    return 315;
+	    }
+	    if (_direction.HasFlag(Direction.Bottom) && _direction.HasFlag(Direction.Right))
+	    {
+		    return 135;
+	    }
+	    if (_direction.HasFlag(Direction.Bottom) && _direction.HasFlag(Direction.Left))
+	    {
+		    return 225;
+	    }
+	    return _direction switch
+	    {
+		    Direction.Top => 0,
+		    Direction.Right => 90,
+		    Direction.Bottom => 180,
+		    Direction.Left => 270,
+		    _ => 0
+	    };
+    }
+
+    private void UpdatePlayerMeshRotation()
+    {
+	    _meshObject.transform.rotation = Quaternion.AngleAxis(GetAngle(), Vector3.up);
     }
     
     public void Update()
     {
+	    var previousDirection = _direction;
+	    
 	    if (_initialized)
 	    {
-		    if (_playerType == PlayerType.Red)
+		    transform.position += MovePlayer().normalized * SPEED * Time.deltaTime;
+
+		    if (previousDirection != _direction)
 		    {
-			    transform.position += Player0Movement() * SPEED;;
-		    }
-		    else
-		    {
-			    transform.position += Player1Movement() * SPEED;;
+			    UpdatePlayerMeshRotation();
 		    }
 	    }
     }
