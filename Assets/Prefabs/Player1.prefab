@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2007359801023295520, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
+      propertyPath: _inputActionForward.m_Id
+      value: 4545fb6d-2284-45ec-954a-275122a3cf5c
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007359801023295520, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
+      propertyPath: _inputActionForward.m_Name
+      value: Input Action Forward
+      objectReference: {fileID: 0}
     - target: {fileID: 2007359801023295521, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -53,11 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2007359801023295525, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
       propertyPath: m_Name
-      value: Player2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2007359801237937868, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
-      propertyPath: m_NormalizedViewPortRect.x
-      value: 0.5
+      value: Player1
       objectReference: {fileID: 0}
     - target: {fileID: 2007359801237937868, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
       propertyPath: m_NormalizedViewPortRect.width

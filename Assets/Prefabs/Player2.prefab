@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2007359801023295520, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
+      propertyPath: _id
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2007359801023295521, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -53,7 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2007359801023295525, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
       propertyPath: m_Name
-      value: Player1
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007359801237937868, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2007359801237937868, guid: 87bf42e26c7e4af4bac164a9e9442677, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
