@@ -3,35 +3,85 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    private Keyboard _keyboard;
+	private GameControls _gameControls;
+
+	[SerializeField]
+	[Range(0, 1)]
+	private int _id;
+	
     private const int SPEED = 8;
 
     public void Start()
     {
-	    _keyboard = Keyboard.current;
+	    _gameControls = new GameControls();
+	    
+	    if (_id == 0)
+	    {
+		    _gameControls.Gameplay.Enable();
+	    }
+	    else
+	    {
+		    _gameControls.Gameplay2.Enable();
+	    }
     }
 
-    public void Update()
+    private Vector3 Player0Movement()
     {
 	    var vector = Vector3.zero;
 	    
-	    if (_keyboard.wKey.isPressed)
+	    if (_gameControls.Gameplay.Forward.IsPressed())
 	    {
 		    vector += Vector3.forward * Time.deltaTime;
 	    }
-	    if (_keyboard.sKey.isPressed)
+	    if (_gameControls.Gameplay.Back.IsPressed())
 	    {
 		    vector -= Vector3.forward * Time.deltaTime;
 	    }
-	    if (_keyboard.dKey.isPressed)
-	    {
-		    vector += Vector3.right * Time.deltaTime;
-	    }
-	    if (_keyboard.aKey.isPressed)
+	    if (_gameControls.Gameplay.Left.IsPressed())
 	    {
 		    vector -= Vector3.right * Time.deltaTime;
 	    }
+	    if (_gameControls.Gameplay.Right.IsPressed())
+	    {
+		    vector += Vector3.right * Time.deltaTime;
+	    }
 
-	    transform.position += vector * SPEED;
+	    return vector;
+    }
+    
+    private Vector3 Player1Movement()
+    {
+	    var vector = Vector3.zero;
+	    
+	    if (_gameControls.Gameplay2.Forward.IsPressed())
+	    {
+		    vector += Vector3.forward * Time.deltaTime;
+	    }
+	    if (_gameControls.Gameplay2.Back.IsPressed())
+	    {
+		    vector -= Vector3.forward * Time.deltaTime;
+	    }
+	    if (_gameControls.Gameplay2.Left.IsPressed())
+	    {
+		    vector -= Vector3.right * Time.deltaTime;
+	    }
+	    if (_gameControls.Gameplay2.Right.IsPressed())
+	    {
+		    vector += Vector3.right * Time.deltaTime;
+	    }
+
+	    return vector;
+    }
+    
+    public void Update()
+    {
+	    if (_id == 0)
+	    {
+		    transform.position += Player0Movement() * SPEED;;
+	    }
+	    else
+	    {
+		    transform.position += Player1Movement() * SPEED;;
+	    }
     }
 }
