@@ -63,5 +63,17 @@ namespace GameSystems
         	    return GameControls.Gameplay2.Right.IsPressed();
             }
         }
+		
+		public bool IsActionPressed(PlayerType type)
+		{
+			if (type == PlayerType.Red)
+			{
+				return GameControls.Gameplay.Action.IsPressed();
+			}
+			else
+			{
+				return GameControls.Gameplay2.Action.IsPressed();
+			}
+		}
 	}
 }
